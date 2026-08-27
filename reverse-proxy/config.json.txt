@@ -1,0 +1,87 @@
+{
+	"proxy_pass": "http://127.0.0.1:80/",
+	"private_key": "/NzmJDq77hzDhBj57Os51xqo5PSV7J+IuHZ9nsbruCA=",
+	"external_ip": "170.245.19.153",
+	"listen_ip": "0.0.0.0",
+	"network_config_url": "https://ton-blockchain.github.io/global.config.json",
+	"custom_tunnel_network_config_url": "",
+	"port": 12146,
+	"tunnel_config": {
+		"TunnelServerKey": "2Icln5rBh43thwSftJf6u4c7hKvQAjlBqtMcfRonLfI=",
+		"TunnelThreads": 8,
+		"TunnelSectionsNum": 1,
+		"NodesPoolConfigPath": "",
+		"PaymentsEnabled": false,
+		"Payments": {
+			"ADNLServerKey": "OziDGvShUs2cus0Kvc9dZyDjydw5tBKwu8ERLEhWz2A=",
+			"PaymentsNodeKey": "4Jq26/qkh/ob9BWBCMitUUFWkC7UxuHE0PdtS/+jXSA=",
+			"WalletPrivateKey": "KyVNlvaL5n6KkK7M4/FCPilyr3SzRh2IRt4BMYvk1m8=",
+			"DBPath": "./payments-db/",
+			"SecureProofPolicy": false,
+			"ChannelsConfig": {
+				"SupportedCoins": {
+					"Ton": {
+						"Enabled": true,
+						"VirtualTunnelConfig": {
+							"MaxCapacityToRentPerTx": "5",
+							"CapacityDepositFee": "0.05",
+							"CapacityFeePercentPer30Days": 0.1,
+							"ProxyMaxCapacity": "0",
+							"ProxyMinFee": "0",
+							"ProxyFeePercent": 0,
+							"DerivativeFeePercent": 0,
+							"AllowTunneling": false
+						},
+						"Symbol": "TON",
+						"Decimals": 9,
+						"MinCapacityRequest": "1",
+						"FeePerWithdrawPropose": "0.05",
+						"BalanceControl": {
+							"DepositWhenAmountLessThan": "1",
+							"DepositUpToAmount": "3",
+							"WithdrawWhenAmountReached": "0"
+						}
+					},
+					"Jettons": {
+						"EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs": {
+							"Enabled": false,
+							"VirtualTunnelConfig": {
+								"MaxCapacityToRentPerTx": "10",
+								"CapacityDepositFee": "0.3",
+								"CapacityFeePercentPer30Days": 0.1,
+								"ProxyMaxCapacity": "0",
+								"ProxyMinFee": "0",
+								"ProxyFeePercent": 0,
+								"DerivativeFeePercent": 0,
+								"AllowTunneling": false
+							},
+							"Symbol": "USDT",
+							"Decimals": 6,
+							"MinCapacityRequest": "3",
+							"FeePerWithdrawPropose": "0.3",
+							"BalanceControl": {
+								"DepositWhenAmountLessThan": "5",
+								"DepositUpToAmount": "10",
+								"WithdrawWhenAmountReached": "0"
+							}
+						}
+					},
+					"ExtraCurrencies": {}
+				},
+				"BufferTimeToCommit": 10800,
+				"QuarantineDurationSec": 21600,
+				"ActionsDuration": 7200,
+				"ConditionalCloseDurationSec": 10800,
+				"MinSafeVirtualChannelTimeoutSec": 300,
+				"ReplicationMessageAttachAmount": "0.1",
+				"AcceptingDerivatives": false,
+				"DerivativesHedge": {
+					"WebhookURL": "",
+					"WebhookKey": "",
+					"WebhookSignatureHMACSHA256Key": ""
+				}
+			}
+		}
+	},
+	"version": 1
+}
