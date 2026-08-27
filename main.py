@@ -1,10 +1,11 @@
+```python
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
 UPSTREAM = "https://romastefale.github.io/TONcard"
-PORT = int(os.environ.get("PORT", "8080"))
+PORT = 8080
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -19,21 +20,20 @@ class Handler(BaseHTTPRequestHandler):
 
         path = self.path or "/"
 
-        # Evita duplicar /TONcard
         if path == "/":
-            url = UPSTREAM + "/"
+            target = UPSTREAM + "/"
         else:
-            url = UPSTREAM + path
+            target = UPSTREAM + path
 
         try:
-            req = Request(
-                url,
+            request = Request(
+                target,
                 headers={
-                    "User-Agent": "TON-Site-Proxy/1.0"
+                    "User-Agent": "Mozilla/5.0 TONcard"
                 }
             )
 
-            with urlopen(req, timeout=30) as response:
+            with urlopen(request, timeout=30) as response:
                 body = response.read()
 
                 self.send_response(response.status)
@@ -54,7 +54,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/plain")
             self.end_headers()
             self.wfile.write(
-                f"Upstream HTTP error: {e.code}".encode()
+                f"Upstream HTTP {e.code}".encode()
             )
 
         except (URLError, TimeoutError, Exception) as e:
@@ -73,9 +73,13 @@ class Handler(BaseHTTPRequestHandler):
         print(fmt % args, flush=True)
 
 
-server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
+server = ThreadingHTTPServer(
+    ("127.0.0.1", PORT),
+    Handler
+)
 
-print(f"Listening on 0.0.0.0:{PORT}", flush=True)
+print(f"TONcard upstream listening on 127.0.0.1:{PORT}", flush=True)
 print(f"Upstream: {UPSTREAM}", flush=True)
 
 server.serve_forever()
+```
