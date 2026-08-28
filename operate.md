@@ -1,50 +1,55 @@
-# Operacao TONcard
+# Atalho aceite: TON Storage
 
-Objectivo: `romastefale.ton` mostrar o mesmo HTML de `https://romastefale.github.io/TONcard/`.
+Objectivo: `romastefale.ton` servir o `index.html` do Pages.
+Nao usar proxy, Docker, Railway nem Termux para isto.
 
 ## Ja feito
 
-- Repositorio: `github.com/romastefale/TONcard` branch `main`
-- GitHub Pages activo: `https://romastefale.github.io/TONcard/`
-- `index.html` e o cartao
-- `main.py` serve o HTML local e usa Pages como fallback
-- Dominio `romastefale.ton` existe e a carteira ja esta ligada
+- HTML no ar: https://romastefale.github.io/TONcard/
+- Dominio teu, carteira ligada
+- Campo Site ainda vazio
 
-## Estado on-chain agora
+## Passo 1 — pasta so com o cartao
 
-- Wallet: ligado
-- Site / ADNL: vazio (`sites: []`)
-- Por isso `https://romastefale.ton.run` e `https://romastefale.ton.website` devolvem 502
-- Chrome normal nao resolve `.ton` sem gateway ou extensao TON
+Cria uma pasta, por exemplo `ton-site`, e mete la **apenas** `index.html` na raiz.
+Copia o ficheiro de:
+https://raw.githubusercontent.com/romastefale/TONcard/main/index.html
 
-Gestao do NFT:
-https://dns.tonkeeper.com/manage?v=0:2cb928e06aee6ee66b8dbfcb657fa1cf4fbb581ff11fefcad95d9c40aa0d06f3
+A pasta nao pode ter `server.js`, `Dockerfile` nem `node_modules`.
 
-## O que falta (so a carteira dona consegue gravar)
+## Passo 2 — criar o Bag ID
 
-Nao existe CNAME de `.ton` para `github.io`. O campo Site tem de apontar para um ADNL ou para um bag de TON Storage.
+Instala o TON Torrent:
+https://github.com/xssnick/TON-Torrent/releases
 
-### Opcao A — TON Storage (mais simples, sem VPS)
+Abre o programa → cria torrent/bag a partir da pasta `ton-site`.
+Copia o Bag ID (64 caracteres hex).
+Deixa o programa aberto a semear, ou contrata um storage provider.
 
-1. Empacota uma pasta cuja raiz tenha `index.html`.
-2. Publica o bag no TON Storage.
-3. No Tonkeeper / dns.tonkeeper.com: Site → Host in TON Storage → cola o Bag ID.
-4. Confirma a transacao.
-5. Testa `https://romastefale.ton.run`.
+Nao reutilizes o bag que ja esta no campo Storage do dominio, a menos que tenhas a certeza de que ele contem `index.html` na raiz.
 
-### Opcao B — continuar o proxy que ja comecaste
+## Passo 3 — gravar no DNS (carteira dona)
 
-1. Servidor com IP publico ou tunel do `tonutils-reverse-proxy`.
-2. Corre `python main.py` na porta 8080.
-3. Corre o proxy com `proxy_pass` para `http://127.0.0.1:8080/`.
-4. Copia o ADNL que o proxy mostrar.
-5. No dns.tonkeeper.com grava esse ADNL no campo Site.
-6. Confirma a transacao.
-7. Testa `https://romastefale.ton.run`.
+1. Abre https://dns.tonkeeper.com/manage?v=0:2cb928e06aee6ee66b8dbfcb657fa1cf4fbb581ff11fefcad95d9c40aa0d06f3
+2. Liga a carteira dona do NFT `romastefale.ton`.
+3. Campo **Site**.
+4. Cola o Bag ID.
+5. Marca **Host in TON Storage** (nao e ADNL).
+6. Save / confirmar a transacao.
+7. Espera 1–2 minutos.
 
-Gera um `config.json` novo na primeira execucao. Nao commits chaves.
+Alternativa no Chrome: extensao MyTonWallet → https://dns.ton.org → romastefale → Edit → Site + checkbox Storage.
 
-## Seguranca
+## Passo 4 — testar
 
-O ficheiro antigo `reverse-proxy/config.json` estava publico com chaves privadas.
-Trata essas chaves como comprometidas e gera par novo.
+- https://romastefale.ton.run
+- https://romastefale.ton.website
+- browser do Tonkeeper: `romastefale.ton`
+
+Chrome normal sem gateway nao resolve `.ton`.
+
+## Se der 502
+
+- O campo Site ainda nao e do tipo Storage, ou ainda nao confirmaste a tx.
+- O bag nao tem `index.html` na raiz.
+- Ninguem esta a semear o bag.
