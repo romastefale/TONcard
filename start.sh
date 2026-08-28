@@ -14,7 +14,15 @@ if [ -d "./reverse-proxy" ]; then
     echo "Checking for tonutils-reverse-proxy binary..."
     if [ ! -f ./tonutils-reverse-proxy ]; then
         echo "Downloading tonutils-reverse-proxy..."
-        wget -q -O ./tonutils-reverse-proxy https://github.com/tonutils/reverse-proxy/releases/download/v0.6.0/tonutils-reverse-proxy-linux-amd64
+        ARCH=$(uname -m)
+        if [ "$ARCH" = "aarch64" ]; then
+            PROXY_BIN="tonutils-reverse-proxy-linux-arm64"
+            echo "Detected ARM64 architecture (Termux/Mobile)..."
+        else
+            PROXY_BIN="tonutils-reverse-proxy-linux-amd64"
+            echo "Detected AMD64 architecture..."
+        fi
+        wget -q -O ./tonutils-reverse-proxy "https://github.com/tonutils/reverse-proxy/releases/download/v0.6.0/${PROXY_BIN}"
         chmod +x ./tonutils-reverse-proxy
     fi
     echo "Starting TON reverse proxy..."
