@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "echo 'No build step required'",
-    "start": "node server.js"
+    "start": "bash start.sh"
   },
   "dependencies": {
     "express": "^4.19.2"
