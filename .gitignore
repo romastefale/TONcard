@@ -1,0 +1,6 @@
+reverse-proxy/config.json
+reverse-proxy/payments-db/
+*.key
+__pycache__/
+.venv/
+.env

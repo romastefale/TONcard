@@ -2,8 +2,9 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir fastapi uvicorn
+COPY main.py index.html ./
 
-COPY main.py .
+ENV PORT=8080
+EXPOSE 8080
 
-CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD ["python", "main.py"]

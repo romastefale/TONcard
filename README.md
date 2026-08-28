@@ -1,31 +1,21 @@
-# ID.SYS - Web3 Profile & TON DNS Endpoint
+# TONcard / ID.SYS
 
-Interface web ultraleve construída em Python (FastAPI), concebida para atuar como um cartão de visitas digital acoplado a domínios da rede TON. A arquitetura foi estruturada para orquestração em contentores (Railway) com integração nativa para tráfego reencaminhado via gateways Web3.
+Cartao de visitas estatico ligado a `romastefale.ton`.
 
-## Especificações Técnicas
+## URLs
 
-* **Backend:** FastAPI, Uvicorn (ASGI).
-* **Frontend:** HTML embutido de ficheiro único, motor de estilos TailwindCSS via CDN, design reativo e animações keyframe (Glitch/Neon).
-* **Roteamento Web3:** O servidor Uvicorn encontra-se configurado (`--proxy-headers`, `--forwarded-allow-ips='*'`) para confiar nos cabeçalhos de rede emitidos por gateways públicos da infraestrutura TON (ex: `.ton.run`).
+- Web2 (ja no ar): https://romastefale.github.io/TONcard/
+- Web3 (falta gravar o campo Site): https://romastefale.ton.run
+- Gestao DNS: https://dns.tonkeeper.com/manage?v=0:2cb928e06aee6ee66b8dbfcb657fa1cf4fbb581ff11fefcad95d9c40aa0d06f3
 
-## Matriz de Segurança
+## Como corre
 
-* **Prevenção XSS:** Escapamento obrigatório de carateres (`html.escape`) em todas as variáveis injetadas no DOM.
-* **CORS Restrito:** Permissão de interações limitadas estritamente a métodos `GET`.
-* **Cabeçalhos HTTP (Middlewares):** Implementação de `Strict-Transport-Security` (HSTS preload), `X-Frame-Options` (DENY), `X-Content-Type-Options` (nosniff) e `Content-Security-Policy` (CSP) estrita, autorizando unicamente origens estáticas predefinidas.
-* **Superfície de Reconhecimento:** Documentação automática (Swagger/ReDoc) desativada.
+```bash
+python main.py
+```
 
-## Variáveis de Ambiente
+Serve `index.html` em `0.0.0.0:${PORT:-8080}`.
+`/health` devolve `OK`.
+Se o ficheiro local nao existir, busca `https://romastefale.github.io/TONcard/`.
 
-O serviço consome parâmetros de ambiente para configuração dinâmica, eliminando dependências de dados imobilizados (hardcoded) no repositório:
-
-| Variável | Descrição | Valor Padrão (Fallback) |
-| :--- | :--- | :--- |
-| `TON_WALLET` | Endereço da carteira na blockchain TON | `EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c` |
-| `TG_LINK` | URL do contacto Telegram | `https://t.me/` |
-| `GITHUB_LINK` | URL do perfil GitHub | `https://github.com/` |
-| `AVATAR_NAME` | Identificação principal apresentada na interface | `Nome Omitido` |
-
-## Estrutura do Orquestrador (Nixpacks)
-
-A implantação no Railway é regida pelo ficheiro `railway.toml`, que força a injeção dos parâmetros de rede adequados na inicialização do serviço e estabelece a rota de _healthcheck_ para monitorização de estabilidade do contentor.
+Passos on-chain e de proxy: ver `operate.md`.
