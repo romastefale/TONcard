@@ -1,1 +1,0 @@
-# Sem dependencias externas. main.py usa apenas a biblioteca padrao.
