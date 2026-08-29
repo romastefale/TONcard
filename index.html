@@ -33,7 +33,7 @@
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 255, 255, 0.06));
             z-index: 50;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
@@ -118,9 +118,9 @@
                     <h1 class="text-3xl md:text-4xl font-extrabold tracking-tighter uppercase mb-2 glitch-hover text-white break-words">
                         pi.py
                     </h1>
-                    <p class="text-red-500 text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold cmd-prompt">
+                    <a href="https://romastefale.github.io/PINTESTER/" class="inline-block text-red-500 text-[10px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold cmd-prompt glitch-hover">
                         PiNTESTER
-                    </p>
+                    </a>
                 </div>
             </div>
 
@@ -185,14 +185,12 @@
                 notification.classList.remove('hidden');
                 notification.classList.add('fade-in');
                 
-                // Oculta a notificação após 2.5 segundos
                 setTimeout(() => {
                     notification.classList.add('hidden');
                     notification.classList.remove('fade-in');
                 }, 2500);
             }).catch(err => {
                 console.error('Falha de execução [SYS.COPY]: ', err);
-                // Fallback method for older browsers or iframes where writeText fails
                 try {
                     const tempInput = document.createElement('input');
                     tempInput.value = walletAddress;
